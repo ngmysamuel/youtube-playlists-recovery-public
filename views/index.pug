@@ -1,0 +1,77 @@
+doctype html
+html(lang='en')
+  head
+    meta(name="google-site-verification" content="nzMPyMg8ML3gerPRsLbXYWm76_GaoAfxOtpGean2OOI")
+    title YouTube Data API
+  body
+    script.
+      function hello() {
+        let id = document.getElementById("userId");
+        console.log("Button pressed: ", id.textContent)
+      }
+      async function auth(e) {
+        try {
+          const response = await fetch("/auth");
+          const data = await response.json();
+          console.log('I have just clicked on /auth: the headers are: ', response.headers, ' the url is: ', data.auth_url);
+          window.location = await data.auth_url;
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      async function viewPlaylists() {
+        try {
+          let id = document.getElementById("userId");
+          //- await fetch("/getPlaylists/" + "100986010949043921161")
+          window.location = "/getPlaylists/" + id.textContent; //"100986010949043921161";//id.textContent)
+          //- const json = await response.json();
+          //- console.log(response);
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      async function viewMissingVideos() {
+        try {
+          let id = document.getElementById("userId");
+          window.location = "/getMissingVideos/" + id.textContent;
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      async function video() {
+        try {
+          fetch("/video")
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    h1 Hello, #{userName}
+    h3 #{message}
+    div(hidden=true)#userId=userId
+    button(onclick="auth()" disabled=!authEnabled) Auth
+    button(onclick="video()" disabled=!videoEnabled) Video
+    button(onclick="viewPlaylists()" disabled=!viewPlaylistsEnabled) View Playlists
+    button(onclick="viewMissingVideos()" disabled=!viewMissingVideosEnabled) View Missing Videos
+    br
+    if playlistItems
+      form(action='/savePreferences/'+userId, method='POST')
+        each item, index in playlistItems
+          - itemName = item ? item.snippet ? item.snippet.title : item : item
+          input(type='checkbox' id=index name=itemName value=item.id checked=checkedPlaylists.includes(item.id))
+          label(for=index)= itemName
+          br
+        input(type="submit")
+    else if missingVideos
+      table(border='1px solid black')
+        tr
+          th Name
+          th From
+          th Date Added
+          each item, index in missingVideos
+            tr
+              th= item.title 
+              th= item.fromPlaylist
+              th= item.dateAdded
+        
+    else
+      span= 'There are no values'
