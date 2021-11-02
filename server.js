@@ -64,6 +64,15 @@ app.get("/", (req, res) => {
     });
   });
 
+  app.get("/homepage", (req,res) => {
+    console.log("/homepage has been called")
+    res.render('homepage', {
+      authEnabled: true,
+      videoEnabled: false,
+      viewPlaylistsEnabled: false,
+    });
+  })
+
 app.get("/privacyPolicy", (req, res) => {
   console.log("/ has been called")
   res.sendFile('./public/privacyPolicy.html', { root: "." })
