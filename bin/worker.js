@@ -10,7 +10,7 @@ try {
 let d = new Date();
 let n = d.getDay()
 console.log("Today's day is: ", n, " - ", d.toISOString());
-if (n === 1) {
+if (n % 2 === 1)  {
     https.get(config ? config.VIDEO_LINK : process.env.VIDEO_LINK , (resp) => {
         console.log('====================Returning to worker.js====================')
         console.log('Status Code:', resp.statusCode);
