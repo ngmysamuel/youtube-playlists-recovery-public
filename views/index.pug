@@ -48,7 +48,9 @@ html(lang='en')
     h1 Hello, #{userName}
     h3 #{message}
     div(hidden=true)#userId=userId
-    button(onclick="auth()" disabled=!authEnabled) Auth
+    if authEnabled
+      button(onclick="auth()" disabled=!authEnabled style="background-color: transparent;border: none;") <img src="button.png" />
+    br
     button(onclick="video()" disabled=!videoEnabled) Video
     button(onclick="viewPlaylists()" disabled=!viewPlaylistsEnabled) View Playlists
     button(onclick="viewMissingVideos()" disabled=!viewMissingVideosEnabled) View Missing Videos
